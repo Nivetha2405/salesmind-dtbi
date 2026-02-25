@@ -39,7 +39,7 @@ python app.py
 ## 📸 Project Proof Screenshots
 
 ### 🖥 Dashboard
-![Dashboard](dtbi dashboard.png)
+![Dashboard](dtbi-dashboard.png)
 
 ### 🌐 Backend API Proof
 ![Network Proof](network-proof.png)
