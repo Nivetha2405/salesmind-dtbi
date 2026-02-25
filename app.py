@@ -1,18 +1,44 @@
 import io
 import csv
 import os
-from flask import Flask, jsonify, send_file , request
+from flask import Flask, jsonify, send_file, request, render_template
 from flask_cors import CORS
 from datetime import datetime
 
 app = Flask(__name__)
 CORS(app)
 
+# HEALTH CHECK ✅
+@app.route('/api/health')
+def health():
+    return jsonify({"status": "healthy", "timestamp": datetime.now().isoformat()})
 
-@app.route("/")
-def home():
-    return {"message": "SalesMind DTBI API is Running"}
+# HTML TEMPLATES - ALL 6 PAGES ✅
+@app.route('/')
+def index():
+    return render_template('index.html')
 
+@app.route('/dashboard')
+def dashboard():
+    return render_template('dashboard.html')
+
+@app.route('/forecast')
+def forecast():
+    return render_template('forecast.html')
+
+@app.route('/twin')
+def twin():
+    return render_template('twin.html')
+
+@app.route('/reports')
+def reports():
+    return render_template('reports.html')
+
+@app.route('/login')
+def login():
+    return render_template('login.html')
+
+# CSV REPORT GENERATOR - FIXED ✅
 @app.route('/api/reports/<report_type>')
 def generate_report(report_type):
     if report_type == 'forecast':
@@ -20,26 +46,26 @@ def generate_report(report_type):
         writer = csv.writer(buffer)
         writer.writerow(['Date', 'Predicted Demand', 'Lower CI', 'Upper CI'])
         
-        # Mock forecast data
+        # 30-Day forecast data
         for i in range(30):
             date = f"2026-03-{i+1:02d}"
             demand = 250 + i * 2 + (i % 7 * 20)
-            writer.writerow([date, demand, demand*0.9, demand*1.1])
+            lower_ci = round(demand * 0.9, 1)
+            upper_ci = round(demand * 1.1, 1)
+            writer.writerow([date, demand, lower_ci, upper_ci])
         
         buffer.seek(0)
+        csv_content = buffer.getvalue().encode('utf-8')
+        
         return send_file(
-            io.BytesIO(buffer.getvalue().encode('utf-8')),
+            io.BytesIO(csv_content),
             mimetype='text/csv',
             as_attachment=True,
             download_name=f'salesmind-forecast-{datetime.now().strftime("%Y%m%d")}.csv'
         )
-    
-    return "Report not found", 404
+    return jsonify({"error": "Report type not found"}), 404
 
-@app.route('/api/health')
-def health():
-    return jsonify({"status": "healthy"})
-
+# DASHBOARD METRICS ✅
 @app.route('/api/dashboard/metrics')
 def dashboard_metrics():
     return jsonify({
@@ -49,17 +75,19 @@ def dashboard_metrics():
         "orders": 890
     })
 
+# FORECAST PREDICTIONS ✅
 @app.route('/api/forecast/predict')
 def forecast_predict():
     return jsonify({
         "predictions": [
             {"date": "2026-02-25", "demand": 285},
-            {"date": "2026-02-26", "demand": 312}
-        ]
+            {"date": "2026-02-26", "demand": 312},
+            {"date": "2026-02-27", "demand": 298}
+        ],
+        "accuracy": 94.7
     })
 
-
-# SALES FORECAST (Actual vs Predicted) 
+# DETAILED FORECAST (Chart data) ✅
 @app.route('/api/forecast/detailed')
 def forecast_detailed():
     dates = [f"2026-0{i:02d}-01" for i in range(1, 13)]
@@ -75,7 +103,7 @@ def forecast_detailed():
         "accuracy": 94.7
     })
 
-# STOCK LEVEL PREDICTION 
+# STOCK INTELLIGENCE ✅
 @app.route('/api/stock/predict')
 def stock_predict():
     return jsonify({
@@ -83,23 +111,29 @@ def stock_predict():
         "predicted_demand_30d": 8500,
         "reorder_level": 2000,
         "days_to_reorder": 7,
-        "optimal_order_qty": 3200
+        "optimal_order_qty": 3200,
+        "risk_level": "HIGH"
     })
 
-# SIMULATION (What-if Analysis) - 
+# WHAT-IF SIMULATION ✅
 @app.route('/api/simulation')
 def simulation():
     scenario = request.args.get('demand_increase', '10')
+    revenue_impact = 24500 if scenario == '10' else 61250 if scenario == '25' else 122500
+    stock_needed = 9350 if scenario == '10' else 12750 if scenario == '25' else 21250
+    
     return jsonify({
         "scenario": f"Demand +{scenario}%",
-        "revenue_impact": 24500,
-        "stock_needed": 9350,
+        "revenue_impact": revenue_impact,
+        "stock_needed": stock_needed,
         "risk_level": "LOW"
     })
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
+
+
 
 
 
