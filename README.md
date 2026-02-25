@@ -60,23 +60,6 @@ python app.py
 
 
 
-## 🏗 System Architecture
-
-User (Browser)
-↓
-Flask App (app.py)
-↓
-Authentication (auth.py)
-↓
-Preprocessing (preprocess.py)
-↓
-ML Models (demand_model.pkl / bi_model.pkl)
-↓
-Digital Twin Engine (twin.py)
-↓
-Forecast & Reports (forecast.py, reports.py)
-↓
-Dashboard + CSV Export + Mobile View
 
 
 
