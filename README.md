@@ -58,7 +58,9 @@ python app.py
 ### ⚡ Quick Actions
 ![Quick Actions](quick-actions.png)
 
+## 🏗 System Architecture
 
+![Architecture](architecture.png)
 
 
 
