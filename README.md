@@ -41,7 +41,7 @@ python app.py
 ![Login Screen](salesmind-login.png.jpeg)
 
 ![Control Panel](salesmind-control-panel.png.jpeg)
-![Dashboard Overview 2](salesmind-dashboard-overview-2.png.jpeg)
+![Dashboard Overview](salesmind-dashboard-overview-2.jpeg)
 ![Dashboard Overview](salesmind-dashboard-overview.png.jpeg)
 
 ![AI Insights](salesmind-ai-insights.png.jpeg)
