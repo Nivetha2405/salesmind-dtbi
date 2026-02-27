@@ -43,6 +43,7 @@ python app.py
 ![Control Panel](salesmind-control-panel.png.jpeg)
 
 ![Dashboard Overview](salesmind-dashboard-overview.png.jpeg)
+![Dashboard Overview](images/salesmind-dashboard-overview-2.jpeg)
 
 
 ![AI Insights](salesmind-ai-insights.png.jpeg)
@@ -50,6 +51,7 @@ python app.py
 
 ![6-Month Forecast](salesmind-forecast-6months.png.jpeg)
 ![Insights Alerts](salesmind-insights-alerts.png.jpeg)
+![Sales Prediction Details](images/sales-prediction-details.png.jpeg)
 
 
 
