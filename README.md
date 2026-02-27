@@ -36,35 +36,35 @@ pip install -r requirements.txt
 python app.py
 
 # SalesMind AI - Dashboard
-![Dashboard Entry](salesmind-dashboard-entry.png.jpeg)
+![Dashboard Entry](images/salesmind-dashboard-entry.png.jpeg)
 
-![Login Screen](salesmind-login.png.jpeg)
+![Login Screen](images/salesmind-login.png.jpeg)
 
-![Control Panel](salesmind-control-panel.png.jpeg)
+![Control Panel](images/salesmind-control-panel.png.jpeg)
 
-![Dashboard Overview](salesmind-dashboard-overview.png.jpeg)
-
-
-![AI Insights](salesmind-ai-insights.png.jpeg)
-![AI Insights 2](salesmind-ai-insights-2.png.jpeg)
-
-![6-Month Forecast](salesmind-forecast-6months.png.jpeg)
-![Insights Alerts](salesmind-insights-alerts.png.jpeg)
-![Sales Prediction Details](salesmind-prediction-details.png.jpeg)
+![Dashboard Overview](images/salesmind-dashboard-overview.png.jpeg)
 
 
+![AI Insights](images/salesmind-ai-insights.png.jpeg)
+![AI Insights 2](images/salesmind-ai-insights-2.png.jpeg)
+
+![6-Month Forecast](images/salesmind-forecast-6months.png.jpeg)
+![Insights Alerts](images/salesmind-insights-alerts.png.jpeg)
+![Sales Prediction Details](images/salesmind-prediction-details.png.jpeg)
 
 
-![Reports](salesmind-reports.png.jpeg)
-![Report Records](salesmind-report-records.png.jpeg)
 
 
-![Simulation Impact](salesmind-simulation-impact.png.jpeg)
-![Simulation Testing](salesmind-simulation-testing.png.jpeg)
+![Reports](images/salesmind-reports.png.jpeg)
+![Report Records](images/salesmind-report-records.png.jpeg)
+
+
+![Simulation Impact](images/salesmind-simulation-impact.png.jpeg)
+![Simulation Testing](images/salesmind-simulation-testing.png.jpeg)
 
 ## 🏗 System Architecture
 
-![Architecture](architecture.png)
+![Architecture](images/architecture.png)
 
 
 
