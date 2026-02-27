@@ -37,36 +37,25 @@ python app.py
 
 # SalesMind AI - Dashboard
 
-## Login Page
-![Login](Salesmind-login.png.jpeg)
+![Login Screen](salesmind-login.png.jpeg)
 
-## Dashboard Entry
-![Dashboard Entry](Salesmind-dashbaord-entry.png.jpeg)
+![Dashboard Entry](salesmind-dashboard-entry.png.jpeg)
+![Dashboard Overview](salesmind-dashboard-overview.png.jpeg)
+![Dashboard Overview 2](salesmind-dashboard-overview-2.png.jpeg)
 
-## Dashboard Overview
-![Dashboard Overview](Salesmind-dashboard-overview.png.jpeg)
-![Dashboard Overview 2](Salesmind-dashboard-overview-2.png.jpeg)
+![AI Insights](salesmind-ai-insights.png.jpeg)
+![AI Insights 2](salesmind-ai-insights-2.png.jpeg)
+![Insights Alerts](salesmind-insights-alerts.png.jpeg)
 
-## Control Panel
-![Control Panel](Salesmind-control-panel.png.jpeg)
+![Control Panel](salesmind-control-panel.png.jpeg)
 
-## AI Insights
-![AI Insights](Salesmind-ai-insights.png.jpeg)
-![AI Insights 2](Salesmind-ai-insights-2.png.jpeg)
+![6-Month Forecast](salesmind-forecast-6months.png.jpeg)
 
-## Forecast (6 Months)
-![Forecast](Salesmind-forecast-6months.png.jpeg)
+![Reports](salesmind-reports.png.jpeg)
+![Report Records](salesmind-report-records.png.jpeg)
 
-## Simulation Testing
-![Simulation Impact](Salesmind-simulation-impact.png.jpeg)
-![Simulation Testing](Salesmind-simulation-testinh.png.jpeg)
-
-## Reports
-![Reports](Salesmind-reports.png.jpeg)
-![Report Records](Salesmind-report-records.png.jpeg)
-
-## Alerts
-![Insights Alerts](Salesmind-insights-alerts.png.jpeg)
+![Simulation Testing](salesmind-simulation-testing.png.jpeg)
+![Simulation Impact](salesmind-simulation-impact.png.jpeg)
 
 ## 🏗 System Architecture
 
