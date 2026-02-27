@@ -44,6 +44,7 @@ python app.py
 
 ![Dashboard Overview](salesmind-dashboard-overview.png.jpeg)
 
+![Dashboard Overview](salesmind-dashboard-overview-2.jpeg)
 
 
 ![AI Insights](salesmind-ai-insights.png.jpeg)
