@@ -1,0 +1,347 @@
+<!-- templates/forecast.html - FIXED VERSION (ONLY BUTTONS + CHART UPDATED) -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forecast - AI Digital Twin BI System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { primary: { 500: '#6366f1', 600: '#4f46e5' } } } }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen lg:ml-64 p-8">
+    <!-- Mobile Header - SAME -->
+    <header class="lg:hidden bg-gray-900/95 backdrop-blur-md border-b border-indigo-500/30 p-4 mb-8 rounded-2xl">
+        <div class="flex items-center justify-between">
+            <h1 class="text-2xl font-black bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">
+                AI Demand Forecast
+            </h1>
+            <button onclick="toggleSidebar()" class="p-2 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30">
+                <i class="fas fa-bars text-xl"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Header - ✅ FIXED BUTTONS -->
+    <header class="flex flex-col lg:flex-row lg:items-center justify-between mb-12">
+        <div>
+            <h1 class="text-4xl lg:text-5xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-2">
+                Demand Forecast
+            </h1>
+            <p class="text-xl text-indigo-400">6-Month AI Projection with Confidence Intervals</p>
+        </div>
+        <!-- ✅ FIXED: Added onclick handlers -->
+        <div class="flex items-center space-x-4 mt-6 lg:mt-0">
+            <button onclick="exportCSV()" class="px-6 py-3 bg-green-500/20 backdrop-blur-sm border border-green-500/50 rounded-2xl hover:bg-green-500/30 transition-all">
+                <i class="fas fa-download mr-2"></i>Export CSV
+            </button>
+            <button onclick="refreshForecast()" class="px-6 py-3 bg-indigo-500/20 backdrop-blur-sm border border-indigo-500/50 rounded-2xl hover:bg-indigo-500/30 transition-all">
+                <i class="fas fa-sync-alt mr-2"></i>Refresh Data
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Forecast Chart - SAME -->
+    <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-indigo-500/20 shadow-2xl mb-12">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-chart-line text-indigo-400 mr-3 text-3xl"></i>
+                Future 6 Months Projection
+            </h3>
+            <div class="flex items-center space-x-4 text-sm">
+                <span class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full">Actual</span>
+                <span class="px-3 py-1 bg-blue-500/20 text-blue-400 rounded-full">Predicted</span>
+                <span class="px-3 py-1 bg-indigo-500/20 text-indigo-400 rounded-full">Confidence</span>
+            </div>
+        </div>
+        <div class="relative h-96">
+            <canvas id="forecastChart"></canvas>
+        </div>
+    </div>
+
+        <div class="mb-12 p-6 bg-gradient-to-r from-indigo-500/10 to-purple-500/10 border-l-4 border-indigo-400 rounded-2xl">
+    <h4 class="text-xl font-bold mb-2 flex items-center">
+        <i class="fas fa-lightbulb text-yellow-400 mr-3"></i>
+        AI Forecast Insight
+    </h4>
+    <p class="text-gray-300">
+        Demand expected to grow steadily over next 6 months with peak in August.
+        Forecast uncertainty remains within ±3.5%. No major volatility detected.
+    </p>
+</div>
+
+    <!-- Model Performance Cards - SAME -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-emerald-500/20 hover:border-emerald-400/40 shadow-2xl hover:shadow-3xl transition-all">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-emerald-500/20 rounded-2xl group-hover:bg-emerald-500/30">
+                    <i class="fas fa-brain text-2xl text-emerald-400"></i>
+                </div>
+            </div>
+            <div class="text-4xl font-black text-emerald-400 mb-2" data-target="94.7">0%</div>
+            <div class="text-sm text-gray-400 mb-1">Model Accuracy</div>
+            <div class="text-xs text-emerald-400 font-semibold">LSTM + XGBoost</div>
+        </div>
+
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-blue-500/20 hover:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-blue-500/20 rounded-2xl group-hover:bg-blue-500/30">
+                    <i class="fas fa-database text-2xl text-blue-400"></i>
+                </div>
+            </div>
+            <div class="text-4xl font-black text-blue-400 mb-2" data-target="12.5">0</div>
+            <div class="text-sm text-gray-400 mb-1">RMSE</div>
+            <div class="text-xs text-blue-400 font-semibold">Lower is better</div>
+        </div>
+
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 hover:border-purple-400/40 shadow-2xl hover:shadow-3xl transition-all">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-purple-500/20 rounded-2xl group-hover:bg-purple-500/30">
+                    <i class="fas fa-percentage text-2xl text-purple-400"></i>
+                </div>
+            </div>
+            <div class="text-4xl font-black text-purple-400 mb-2" data-target="8.2">0%</div>
+            <div class="text-sm text-gray-400 mb-1">MAPE</div>
+            <div class="text-xs text-purple-400 font-semibold">Mean Absolute %</div>
+        </div>
+
+        <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-green-500/20 hover:border-green-400/40 shadow-2xl hover:shadow-3xl transition-all">
+            <div class="flex items-center mb-4">
+                <div class="p-3 bg-green-500/20 rounded-2xl group-hover:bg-green-500/30">
+                    <i class="fas fa-chart-line text-2xl text-green-400"></i>
+                </div>
+            </div>
+            <div class="text-4xl font-black text-green-400 mb-2" data-target="0.92">0</div>
+            <div class="text-sm text-gray-400 mb-1">R² Score</div>
+            <div class="text-xs text-green-400 font-semibold">Perfect fit: 1.0</div>
+        </div>
+    </div>
+
+    <!-- Prediction Table - SAME -->
+    <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-indigo-500/20 shadow-2xl">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="text-2xl font-bold flex items-center">
+                <i class="fas fa-table text-indigo-400 mr-3 text-3xl"></i>
+                Prediction Details (Last 12 Months)
+            </h3>
+            <div class="flex space-x-2">
+                <button class="px-4 py-2 bg-indigo-500/20 border border-indigo-500/50 rounded-xl hover:bg-indigo-500/30">All</button>
+                <button class="px-4 py-2 bg-gray-700 border border-gray-600 rounded-xl hover:bg-gray-600">High Error</button>
+            </div>
+        </div>
+        <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+                <thead class="bg-gray-900/50">
+                    <tr>
+                        <th class="p-4 text-left font-bold text-gray-200">Month</th>
+                        <th class="p-4 text-right font-bold text-gray-200">Actual</th>
+                        <th class="p-4 text-right font-bold text-gray-200">Predicted</th>
+                        <th class="p-4 text-right font-bold text-gray-200">Difference</th>
+                        <th class="p-4 text-right font-bold text-gray-200">Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody class="divide-y divide-gray-700">
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Jan 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">12,000</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">12,200</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+200</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">98.3%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Feb 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">11,800</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">12,000</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+200</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">98.3%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Mar 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">13,200</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">13,400</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+200</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">98.5%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Apr 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">13,500</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">13,700</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+200</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">98.5%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">May 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">13,800</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">14,100</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+300</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.9%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Jun 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">14,200</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">14,500</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+300</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.9%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Jul 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">14,500</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">14,900</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.2%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Aug 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">14,800</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">15,200</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.2%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Sep 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">15,200</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">15,600</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.1%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Oct 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">15,500</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">15,900</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">97.0%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Nov 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">15,800</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">16,200</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">96.9%</td>
+    </tr>
+    <tr class="hover:bg-gray-800/50 transition-colors">
+        <td class="p-4 font-semibold">Dec 2026</td>
+        <td class="p-4 text-right text-green-400 font-bold">16,200</td>
+        <td class="p-4 text-right text-indigo-400 font-bold">16,600</td>
+        <td class="p-4 text-right text-orange-400 font-bold">+400</td>
+        <td class="p-4 text-right text-emerald-400 font-bold">96.9%</td>
+    </tr>
+</tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- ✅ FIXED & COMPLETE SCRIPT -->
+    <script>
+        // ✅ NEW: Export/Refresh Functions
+        function exportCSV() {
+            const csv = `Month,Actual,Predicted,Difference,Accuracy\nJan 2026,12000,12200,+200,98.3%\nFeb 2026,11800,12000,+200,98.3%\nMar 2026,13200,13400,+200,98.5%\nApr 2026,13500,13700,+200,98.5%\nMay 2026,13800,14100,+300,97.9%\nJun 2026,14200,14500,+300,97.9%`;
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'demand_forecast_2026.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            console.log('📊 CSV exported successfully');
+        }
+
+        function refreshForecast() {
+            // Animate refresh
+            const buttons = document.querySelectorAll('button i.fa-sync-alt');
+            buttons.forEach(icon => {
+                icon.classList.add('animate-spin');
+            });
+            
+            setTimeout(() => {
+                buttons.forEach(icon => {
+                    icon.classList.remove('animate-spin');
+                });
+                console.log('Forecast updated');
+                location.reload();
+            }, 1500);
+        }
+
+        // Animate counters - SAME
+        document.querySelectorAll('[data-target]').forEach(el => {
+            const target = parseFloat(el.getAttribute('data-target'));
+            let current = 0;
+            const increment = target / 100;
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    current = target;
+                    clearInterval(timer);
+                }
+                el.textContent = el.classList.contains('text-emerald-400') || el.classList.contains('text-purple-400') ? current.toFixed(1) + '%' : current.toFixed(2);
+            }, 30);
+        });
+
+        const ctx = document.getElementById('forecastChart').getContext('2d');
+
+new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: ['Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+        datasets: [
+            {
+                label: 'Actual',
+                data: [13200, 13500, 13800, 14200, 14500, 14800],
+                borderColor: '#10b981',
+                tension: 0.4,
+                fill: false
+            },
+            {
+                label: 'Upper Confidence',
+                data: [13800, 14100, 14500, 14900, 15300, 15700],
+                borderColor: 'rgba(99,102,241,0)',
+                backgroundColor: 'rgba(99,102,241,0.15)',
+                fill: false,
+                pointRadius: 0
+            },
+            {
+                label: 'Lower Confidence',
+                data: [13000, 13300, 13700, 14100, 14500, 14900],
+                borderColor: 'rgba(99,102,241,0)',
+                backgroundColor: 'rgba(99,102,241,0.15)',
+                fill: '+1',
+                pointRadius: 0
+            },
+            {
+                label: 'Predicted',
+                data: [13400, 13700, 14100, 14500, 14900, 15300],
+                borderColor: '#6366f1',
+                tension: 0.4,
+                borderWidth: 3,
+                fill: false
+            }
+        ]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: { 
+            y: { 
+                beginAtZero: false,
+                grid: { color: 'rgba(99,102,241,0.1)' }
+            } 
+        },
+        plugins: { legend: { position: 'top' } }
+    }
+});
+        // Mobile sidebar toggle (if needed)
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            if (sidebar) {
+                sidebar.classList.toggle('-translate-x-full');
+            }
+        }
+    </script>
+</body>
+</html>

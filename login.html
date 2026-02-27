@@ -1,0 +1,132 @@
+<!-- templates/login.html - Demo Credentials REMOVED -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - AI Digital Twin BI System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        float: {
+                            '0%, 100%': { transform: 'translateY(0px)' },
+                            '50%': { transform: 'translateY(-10px)' }
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(99, 102, 241, 0.3)' },
+                            '100%': { boxShadow: '0 0 40px rgba(99, 102, 241, 0.6)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .glassmorphism {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .gradient-border {
+            background: linear-gradient(45deg, transparent 30%, rgba(99, 102, 241, 0.3) 50%, transparent 70%);
+            background-clip: padding-box;
+            border: 2px solid transparent;
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black min-h-screen flex items-center justify-center p-4">
+    <!-- Animated particles -->
+    <div class="fixed inset-0 overflow-hidden pointer-events-none">
+        <div class="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500/10 rounded-full blur-3xl animate-float"></div>
+        <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-500/10 rounded-full blur-3xl animate-float" style="animation-delay: -3s;"></div>
+    </div>
+
+    <div class="w-full max-w-md">
+        <!-- Branding -->
+        <div class="text-center mb-12">
+            <div class="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-indigo-500 to-purple-600 rounded-3xl shadow-2xl mx-auto mb-6 animate-glow">
+                <i class="fas fa-shield-alt text-2xl text-white"></i>
+            </div>
+            <h1 class="text-4xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-2">
+                Digital Twin BI
+            </h1>
+            <p class="text-indigo-400 text-xl font-semibold">Enterprise Demand Intelligence</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="glassmorphism rounded-3xl p-10 shadow-2xl gradient-border hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+            <form id="loginForm" class="space-y-6">
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-3">Email Address</label>
+                    <div class="relative">
+                        <i class="fas fa-envelope absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="email" id="email" required
+                               class="w-full pl-12 pr-4 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/30 focus:border-transparent transition-all duration-300"
+                               placeholder="Enter your email">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-sm font-semibold text-gray-300 mb-3">Password</label>
+                    <div class="relative">
+                        <i class="fas fa-lock absolute left-4 top-1/2 -translate-y-1/2 text-gray-400"></i>
+                        <input type="password" id="password" required
+                               class="w-full pl-12 pr-12 py-4 bg-white/10 border border-white/20 rounded-2xl text-white placeholder-gray-400 focus:outline-none focus:ring-4 focus:ring-indigo-500/30 focus:border-transparent transition-all duration-300"
+                               placeholder="Enter your password">
+                        <button type="button" id="togglePassword" class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-400 hover:text-white transition-colors">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-between">
+                    <label class="flex items-center space-x-2">
+                        <input type="checkbox" class="rounded border-gray-400 text-indigo-500 focus:ring-indigo-500">
+                        <span class="text-sm text-gray-400">Remember me</span>
+                    </label>
+                    <a href="#" class="text-sm text-indigo-400 hover:text-indigo-300 font-semibold transition-colors">Forgot Password?</a>
+                </div>
+
+                <button type="submit"
+                        class="w-full bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-xl font-bold py-5 px-6 rounded-2xl shadow-2xl hover:shadow-3xl transform hover:-translate-y-1 transition-all duration-300 flex items-center justify-center space-x-3">
+                    <i class="fas fa-arrow-right"></i>
+                    <span>Sign In Securely</span>
+                </button>
+            </form>
+        </div>
+
+        <!-- Footer -->
+        <p class="text-center mt-12 text-sm text-gray-500">
+            © 2026 AI Digital Twin BI System v2.0.0
+        </p>
+    </div>
+
+    <script>
+        // Password toggle
+        const togglePassword = document.getElementById('togglePassword');
+        const password = document.getElementById('password');
+        togglePassword.addEventListener('click', () => {
+            const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+            password.setAttribute('type', type);
+            togglePassword.querySelector('i').classList.toggle('fa-eye');
+            togglePassword.querySelector('i').classList.toggle('fa-eye-slash');
+        });
+
+        // Form submission - Direct dashboard access
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            // Direct redirect to dashboard - no credentials check
+            window.location.href = '/dashboard';
+        });
+    </script>
+</body>
+</html>

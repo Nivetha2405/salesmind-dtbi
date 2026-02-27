@@ -1,0 +1,448 @@
+<!-- templates/dashboard.html -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - AI Digital Twin BI System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chartjs-adapter-date-fns@3.0.0/dist/chartjs-adapter-date-fns.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: { extend: { colors: { primary: { 500: '#6366f1', 600: '#4f46e5' } } } }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen">
+    <!-- Sidebar -->
+    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-none md:backdrop-blur-mdborder-r border-indigo-500/30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
+        <div class="flex items-center justify-center h-20 border-b border-indigo-500/30">
+            <i class="fas fa-robot text-3xl text-indigo-400 mr-3"></i>
+            <span class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">Digital Twin BI</span>
+        </div>
+        <nav class="mt-8 px-4">
+            <a href="/dashboard" class="flex items-center p-4 text-lg font-semibold text-indigo-400 bg-indigo-500/20 rounded-2xl mb-4 shadow-lg">
+                <i class="fas fa-chart-bar w-6 mr-4"></i> Dashboard
+            </a>
+            <a href="/forecast" class="flex items-center p-4 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-xl mb-4 transition-all duration-200">
+                <i class="fas fa-chart-line w-6 mr-4"></i> Forecast
+            </a>
+            <a href="/reports" class="flex items-center p-4 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-xl mb-4 transition-all duration-200">
+                <i class="fas fa-file-alt w-6 mr-4"></i> Reports
+            </a>
+            <a href="/twin" class="flex items-center p-4 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-xl mb-4 transition-all duration-200">
+                <i class="fas fa-cube w-6 mr-4"></i> Digital Twin
+            </a>
+            <a href="/login" class="flex items-center p-4 text-gray-300 hover:text-white hover:bg-gray-800/50 rounded-xl mt-12 transition-all duration-200">
+                <i class="fas fa-sign-out-alt w-6 mr-4"></i> Logout
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Overlay -->
+    <div class="fixed inset-0 bg-black/50 backdrop-blur-none sm:backdrop-blur-sm z-40 lg:hidden" id="overlay"></div>
+
+    <!-- Main Content -->
+    <div class="lg:ml-64 p-8">
+        <!-- Header -->
+        <header class="flex flex-col lg:flex-row lg:items-center justify-between mb-12">
+            <div>
+                <h1 class="text-4xl lg:text-5xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-2">
+                    BI Control Panel
+                </h1>
+                <p class="text-xl text-indigo-400">Real-time Enterprise Demand Intelligence</p>
+            </div>
+            <div class="flex items-center space-x-4 mt-6 lg:mt-0">
+                <button id="refreshBtn" class="px-6 py-3 bg-indigo-500/20 backdrop-blur-sm border border-indigo-500/50 rounded-2xl hover:bg-indigo-500/30 transition-all duration-200">
+                    <i class="fas fa-sync-alt mr-2"></i>Refresh
+                </button>
+                <div id="lastUpdate" class="text-sm text-gray-400"></div>
+            </div>
+        </header>
+        <div class="flex flex-wrap gap-4 mb-8">
+    <select id="scenarioSelect" class="bg-gray-800 border border-indigo-500/30 px-4 py-2 rounded-xl text-white">
+        <option value="normal">Normal</option>
+        <option value="festival">Festival Surge</option>
+        <option value="disruption">Supply Disruption</option>
+        <option value="priceDrop">Price Drop</option>
+    </select>
+</div>
+
+        <!-- KPI Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-none md:backdrop-blur-md p-8 rounded-3xl border border-indigo-500/20 hover:border-indigo-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-indigo-500/20 rounded-2xl group-hover:bg-indigo-500/30 transition-all">
+                        <i class="fas fa-dollar-sign text-2xl text-indigo-400"></i>
+                    </div>
+                    <i class="fas fa-trending-up text-green-400 text-xl"></i>
+                </div>
+                <div id="totalSales" class="text-2xl xl:text-3xl font-black text-white mb-1 break-words"></div>
+                <div class="text-sm text-gray-400">Total Sales</div>
+            </div>
+
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-green-500/20 hover:border-green-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-green-500/20 rounded-2xl group-hover:bg-green-500/30 transition-all">
+                        <i class="fas fa-boxes text-2xl text-green-400"></i>
+                    </div>
+                    <i class="fas fa-chart-line text-green-400 text-xl"></i>
+                </div>
+                <div id="currentDemand" class="text-3xl xl:text-4xl font-black text-white mb-1">0</div>
+                <div class="text-sm text-gray-400">Current Demand</div>
+            </div>
+
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-blue-500/20 hover:border-blue-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-blue-500/20 rounded-2xl group-hover:bg-blue-500/30 transition-all">
+                        <i class="fas fa-brain text-2xl text-blue-400"></i>
+                    </div>
+                    <i class="fas fa-arrow-up text-blue-400 text-xl"></i>
+                </div>
+                <div id="predictedDemand" class="text-3xl xl:text-4xl font-black text-white mb-1">0</div>
+                <div class="text-sm text-gray-400">Predicted Demand</div>
+            </div>
+
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-emerald-500/20 hover:border-emerald-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-emerald-500/20 rounded-2xl group-hover:bg-emerald-500/30 transition-all">
+                        <i class="fas fa-percentage text-2xl text-emerald-400"></i>
+                    </div>
+                    <i class="fas fa-arrow-up text-emerald-400 text-xl"></i>
+                </div>
+                <div id="demandGrowth" class="text-3xl xl:text-4xl font-black text-emerald-400 mb-1">0%</div>
+                <div class="text-sm text-gray-400">Demand Growth</div>
+            </div>
+
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-orange-500/20 hover:border-orange-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-orange-500/20 rounded-2xl group-hover:bg-orange-500/30 transition-all">
+                        <i class="fas fa-warehouse text-2xl text-orange-400"></i>
+                    </div>
+                    <i class="fas fa-exclamation-triangle text-orange-400 text-xl"></i>
+                </div>
+                <div id="inventoryLevel" class="text-3xl xl:text-4xl font-black text-white mb-1">0</div>
+                <div class="text-sm text-gray-400">Inventory Level</div>
+            </div>
+
+            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-md p-8 rounded-3xl border border-purple-500/20 hover:border-purple-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+                <div class="flex items-center justify-between mb-4">
+                    <div class="p-3 bg-purple-500/20 rounded-2xl group-hover:bg-purple-500/30 transition-all">
+                        <i class="fas fa-shield-check text-2xl text-purple-400"></i>
+                    </div>
+                    <i class="fas fa-check-circle text-purple-400 text-xl"></i>
+                </div>
+                <div id="aiAccuracy" class="text-3xl xl:text-4xl font-black text-purple-400 mb-1">0%</div>
+                <div class="text-sm text-gray-400">AI Accuracy</div>
+            </div>
+        </div>
+
+        <!-- Charts Grid -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 xl:grid-cols-3 gap-8">
+            <!-- Line Chart: Actual vs Predicted -->
+            <div class="lg:col-span-2 bg-gray-800/50 backdrop-blur-none md:backdrop-blur-md rounded-3xl p-8 border border-indigo-500/20 shadow-2xl">
+    <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-line text-indigo-400 mr-3"></i>Actual vs Predicted Demand (12 Months)</h3>
+    <div class="h-[400px] bg-gray-900/30 rounded-2xl p-4">
+        <canvas id="lineChart"></canvas>
+    </div>
+</div>
+
+            <!-- Bar Chart: Product Sales -->
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-green-500/20 shadow-2xl">
+    <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-bar text-green-400 mr-3"></i>Product Sales Comparison</h3>
+    <div class="h-[350px] bg-gray-900/30 rounded-2xl p-4">
+        <canvas id="barChart"></canvas>
+    </div>
+</div>
+
+            <!-- Area Chart: Revenue -->
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-blue-500/20 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-area text-blue-400 mr-3"></i>Revenue Trend</h3>
+                <div class="h-[350px] bg-gray-900/30 rounded-2xl p-4">
+                    <canvas id="areaChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Donut Chart: Market Share -->
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-purple-500/20 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-pie text-purple-400 mr-3"></i>Market Share %</h3>
+                <div class="h-[350px] bg-gray-900/30 rounded-2xl p-4">
+                  <canvas id="donutChart"></canvas>
+                </div>
+            </div>
+
+            <!-- Heatmap: Monthly Demand -->
+            <div class="lg:col-span-2 bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-orange-500/20 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-table-heat text-orange-400 mr-3"></i>Monthly Demand Intensity</h3>
+                <div id="heatmap" class="grid grid-cols-12 gap-1 h-80"></div>
+            </div>
+
+            <!-- Scatter Plot: Price vs Demand -->
+            <div class="bg-gray-800/50 backdrop-blur-md rounded-3xl p-8 border border-emerald-500/20 shadow-2xl">
+                <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-braille text-emerald-400 mr-3"></i>Price vs Demand</h3>
+                 <div class="h-[350px] bg-gray-900/30 rounded-2xl p-4">
+                    <canvas id="scatterChart"></canvas>
+                </div>
+            </div>
+        </div>
+
+        <!-- AI Insights Panel -->
+        <div class="mt-12 grid lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2">
+                <h3 class="text-3xl font-bold mb-8 flex items-center"><i class="fas fa-lightbulb text-yellow-400 mr-3"></i>AI Insights</h3>
+                <div class="space-y-4">
+                    <div class="flex items-start p-6 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-l-4 border-green-400 rounded-2xl">
+                        <i class="fas fa-chart-line text-2xl text-green-400 mt-1 mr-4 flex-shrink-0"></i>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">📈 Demand Surge Detected</h4>
+                            <p class="text-gray-300">Q4 demand increasing 18.2% YoY across all product categories</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-l-4 border-orange-400 rounded-2xl">
+                        <i class="fas fa-exclamation-triangle text-2xl text-orange-400 mt-1 mr-4 flex-shrink-0"></i>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">⚠️ Stock Alert</h4>
+                            <p class="text-gray-300">Product A shortage predicted for March - reorder 2,450 units</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start p-6 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border-l-4 border-purple-400 rounded-2xl">
+                        <i class="fas fa-fire text-2xl text-purple-400 mt-1 mr-4 flex-shrink-0"></i>
+                        <div>
+                            <h4 class="font-bold text-xl mb-2">🔥 Top Performer</h4>
+                            <p class="text-gray-300">Product C showing 12% surge - increase marketing allocation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+
+    function updateTime() {
+    const now = new Date();
+    const timeString = now.toLocaleTimeString('en-IN', {
+        hour: '2-digit',
+        minute: '2-digit'
+    });
+    document.getElementById("lastUpdate").textContent =
+        "Last update: " + timeString + " IST";
+}
+
+updateTime();
+setInterval(updateTime, 60000);
+  let counterIntervals = {};
+
+  document.getElementById("refreshBtn").classList.add("animate-spin");
+setTimeout(() => {
+    document.getElementById("refreshBtn").classList.remove("animate-spin");
+}, 500);
+
+function animateCounter(id, target) {
+    const el = document.getElementById(id);
+    if (!el) return;
+
+    // Stop previous interval if running
+    if (counterIntervals[id]) {
+        clearInterval(counterIntervals[id]);
+    }
+
+    let current = 0;
+    const increment = target / 100;
+
+    counterIntervals[id] = setInterval(() => {
+        current += increment;
+
+        if (current >= target) {
+            current = target;
+            clearInterval(counterIntervals[id]);
+        }
+
+        if (id === 'totalSales') {
+            el.textContent = '₹' + Math.floor(current).toLocaleString();
+        } 
+        else if (id === 'demandGrowth' || id === 'aiAccuracy') {
+            el.textContent = current.toFixed(2) + '%';
+        } 
+        else {
+            el.textContent = Math.floor(current).toLocaleString();
+        }
+
+    }, 20);
+}
+    animateCounter('totalSales', 845000);
+    animateCounter('currentDemand', 12450);
+    animateCounter('predictedDemand', 13200);
+    animateCounter('demandGrowth', 6.02);
+    animateCounter('inventoryLevel', 9800);
+    animateCounter('aiAccuracy', 94.8);
+
+    document.getElementById("scenarioSelect")?.addEventListener("change", function() {
+    const scenario = this.value;
+
+    if (scenario === "festival") {
+        animateCounter('currentDemand', 15000);
+        animateCounter('predictedDemand', 16500);
+        animateCounter('demandGrowth', 12.5);
+    }
+    else if (scenario === "disruption") {
+        animateCounter('inventoryLevel', 6500);
+        animateCounter('demandGrowth', -4.2);
+    }
+    else if (scenario === "priceDrop") {
+        animateCounter('demandGrowth', 10.5);
+        animateCounter('currentDemand', 14500);
+    }
+    else {
+        animateCounter('totalSales', 845000);
+        animateCounter('currentDemand', 12450);
+        animateCounter('predictedDemand', 13200);
+        animateCounter('demandGrowth', 6.02);
+        animateCounter('inventoryLevel', 9800);
+        animateCounter('aiAccuracy', 94.8);
+    }
+});
+
+    // ✅ FIXED Line Chart ONLY
+    const lineCtx = document.getElementById('lineChart')?.getContext('2d');
+    if (lineCtx) new Chart(lineCtx, {
+        type: 'line',
+        data: {
+            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+            datasets: [{
+                label: 'Actual',
+                data: [12000, 11800, 12500, 13000, 12800, 13500, 14000, 14200, 13800, 14500, 15000, 15500],
+                borderColor: '#10b981',
+                backgroundColor: 'rgba(16, 185, 129, 0.1)',
+                tension: 0.4,
+                fill: true
+            }, {
+                label: 'Predicted',
+                data: [12200, 12000, 12600, 13200, 13000, 13700, 14200, 14400, 14000, 14700, 15200, 15700],
+                borderColor: '#6366f1',
+                backgroundColor: 'rgba(99, 102, 241, 0.05)',
+                tension: 0.4,
+                borderWidth: 3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: false } }
+        }
+    });
+
+    // ✅ FIXED Bar Chart ONLY
+    const barCtx = document.getElementById('barChart')?.getContext('2d');
+    if (barCtx) new Chart(barCtx, {
+        type: 'bar',
+        data: {
+            labels: ['Product A', 'Product B', 'Product C', 'Product D'],
+            datasets: [{
+                label: 'Sales ₹',
+                data: [845000, 720000, 950000, 680000],
+                backgroundColor: ['#ef4444', '#f59e0b', '#10b981', '#3b82f6'],
+                borderRadius: 6
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: { y: { beginAtZero: true } }
+        }
+    });
+
+    // Heatmap Generation
+    const heatmap = document.getElementById('heatmap');
+    for (let i = 0; i < 144; i++) {
+        const intensity = Math.random() * 100;
+        const color = `hsl(200, 50%, ${30 + intensity / 3}%)`;
+        if (heatmap){
+            heatmap.innerHTML += `<div class="w-6 h-6 rounded-lg" style="background-color:${color}; opacity:0.8"></div>`;
+        }
+    }
+
+   const areaCtx = document.getElementById('areaChart')?.getContext('2d');
+if (areaCtx) new Chart(areaCtx, {
+    type: 'line',
+    data: {
+        labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
+        datasets: [{
+            label: 'Revenue ₹',
+            data: [600000,650000,700000,720000,750000,780000,820000,860000,900000,950000,1000000,1100000],
+            borderColor: '#3b82f6',
+            backgroundColor: 'rgba(59,130,246,0.2)',
+            tension: 0.4,
+            fill: true
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+const donutCtx = document.getElementById('donutChart')?.getContext('2d');
+if (donutCtx) new Chart(donutCtx, {
+    type: 'doughnut',
+    data: {
+        labels: ['Product A','Product B','Product C','Product D'],
+        datasets: [{
+            data: [35, 25, 20, 20],
+            backgroundColor: ['#6366f1','#10b981','#f59e0b','#ef4444'],
+            borderWidth: 0
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false
+    }
+});
+
+const scatterCtx = document.getElementById('scatterChart')?.getContext('2d');
+if (scatterCtx) new Chart(scatterCtx, {
+    type: 'scatter',
+    data: {
+        datasets: [{
+            label: 'Price vs Demand',
+            data: [
+                {x: 100, y: 15000},
+                {x: 120, y: 14000},
+                {x: 140, y: 13000},
+                {x: 160, y: 11000},
+                {x: 180, y: 9000}
+            ],
+            backgroundColor: '#10b981'
+        }]
+    },
+    options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            x: {
+                title: { display: true, text: 'Price ₹' }
+            },
+            y: {
+                title: { display: true, text: 'Demand Units' }
+            }
+        }
+    }
+});
+
+// Refresh Button Function
+document.addEventListener("DOMContentLoaded", function () {
+    const refreshBtn = document.getElementById("refreshBtn");
+
+    if (refreshBtn) {
+        refreshBtn.addEventListener("click", function () {
+            location.reload();
+        });
+    }
+});
+</script>
+</body>
+</html>
