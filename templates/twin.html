@@ -9,7 +9,17 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen lg:ml-64 p-8">
+<body class="bg-gradient-to-br from-gray-800 via-indigo-900 to-gray-900 text-white min-h-screen lg:ml-64 p-8">
+    <nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
+    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
+
+    <div class="space-x-6 text-white">
+        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
+        <a href="{{ url_for('forecast') }}" class="hover:text-indigo-400">Forecast</a>
+        <a href="{{ url_for('reports') }}" class="hover:text-indigo-400">Reports</a>
+        <a href="{{ url_for('twin') }}" class="text-indigo-400 font-semibold">Twin</a>
+    </div>
+</nav>
     <!-- Header - ✅ FIXED BUTTONS -->
     <header class="mb-12">
         <h1 class="text-5xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-4">
@@ -209,6 +219,8 @@ function toggleSimulation() {
 
     if (!simulationRunning) {
 
+        if (liveInterval) clearInterval(liveInterval);
+
         simulationRunning = true;
         btnText.innerText = "Stop Simulation";
         document.getElementById("simStatus").innerText = "Running";
@@ -299,15 +311,15 @@ addLog("Simulation reset");
             });
             
             impactChart.data.datasets[1].data = [
-    newDemand - 300,
+    newDemand * 0.95,
     newDemand,
-    newDemand + 200,
-    newDemand + 500
+    newDemand * 1.05,
+    newDemand * 1.08
 ];
 
 impactChart.update();
 
-            alert(`🎯 Simulation Complete!\nPrice: ${priceChange}%\nProduction: ${prodChange}%\nMarketing: ${marketChange}%\nNew Demand: ${newDemand.toLocaleString()} (+${Math.round((newDemand-baseDemand)/baseDemand*100)}%)`);
+            addLog(`Simulation complete → New Demand: ${newDemand.toLocaleString()}`);
         }
 
         
