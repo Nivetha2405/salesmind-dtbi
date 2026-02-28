@@ -17,17 +17,7 @@
     </script>
 </head>
 <body class="bg-gradient-to-br from-gray-800 via-indigo-950 to-gray-900 text-white min-h-screen">
-    <!-- Top Navigation -->
-<nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
-    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
-
-    <div class="space-x-6">
-        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
-        <a href="{{ url_for('forecast') }}" class="hover:text-indigo-400">Forecast</a>
-        <a href="{{ url_for('reports') }}" class="hover:text-indigo-400">Reports</a>
-        <a href="{{ url_for('twin') }}" class="hover:text-indigo-400">Twin</a>
-    </div>
-</nav>
+    
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-none md:backdrop-blur-mdborder-r border-indigo-500/30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
         <div class="flex items-center justify-center h-20 border-b border-indigo-500/30">
@@ -457,5 +447,6 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+
 
 
