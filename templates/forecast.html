@@ -17,17 +17,7 @@
     </script>
 </head>
 <body class="bg-gradient-to-br from-gray-800 via-indigo-900 to-gray-900 text-white min-h-screen lg:ml-64 p-8">
-    <!-- Top Navigation -->
-<nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
-    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
-
-    <div class="space-x-6 text-white">
-        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
-        <a href="{{ url_for('forecast') }}" class="text-indigo-400 font-semibold">Forecast</a>
-        <a href="{{ url_for('reports') }}" class="hover:text-indigo-400">Reports</a>
-        <a href="{{ url_for('twin') }}" class="hover:text-indigo-400">Twin</a>
-    </div>
-</nav>
+    
     <!-- Mobile Header - SAME -->
     <header class="lg:hidden bg-gray-900/95 backdrop-blur-md border-b border-indigo-500/30 p-4 mb-8 rounded-2xl">
         <div class="flex items-center justify-between">
@@ -372,5 +362,6 @@ new Chart(ctx, {
     </script>
 </body>
 </html>
+
 
 
