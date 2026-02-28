@@ -16,7 +16,18 @@
         }
     </script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen">
+<body class="bg-gradient-to-br from-gray-800 via-indigo-950 to-gray-900 text-white min-h-screen">
+    <!-- Top Navigation -->
+<nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
+    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
+
+    <div class="space-x-6">
+        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
+        <a href="{{ url_for('forecast') }}" class="hover:text-indigo-400">Forecast</a>
+        <a href="{{ url_for('reports') }}" class="hover:text-indigo-400">Reports</a>
+        <a href="{{ url_for('twin') }}" class="hover:text-indigo-400">Twin</a>
+    </div>
+</nav>
     <!-- Sidebar -->
     <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-none md:backdrop-blur-mdborder-r border-indigo-500/30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
         <div class="flex items-center justify-center h-20 border-b border-indigo-500/30">
@@ -43,7 +54,7 @@
     </aside>
 
     <!-- Overlay -->
-    <div class="fixed inset-0 bg-black/50 backdrop-blur-none sm:backdrop-blur-sm z-40 lg:hidden" id="overlay"></div>
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-none sm:backdrop-blur-sm z-40 lg:hidden" id="overlay"></div>
 
     <!-- Main Content -->
     <div class="lg:ml-64 p-8">
@@ -73,7 +84,7 @@
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
-            <div class="group bg-gradient-to-br from-gray-800 to-gray-900/50 backdrop-blur-none md:backdrop-blur-md p-8 rounded-3xl border border-indigo-500/20 hover:border-indigo-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
+            <div class="group bg-gradient-to-br from-gray-700 to-gray-800/50 backdrop-blur-none md:backdrop-blur-md p-8 rounded-3xl border border-indigo-500/20 hover:border-indigo-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
                 <div class="flex items-center justify-between mb-4">
                     <div class="p-3 bg-indigo-500/20 rounded-2xl group-hover:bg-indigo-500/30 transition-all">
                         <i class="fas fa-dollar-sign text-2xl text-indigo-400"></i>
@@ -145,7 +156,7 @@
             <!-- Line Chart: Actual vs Predicted -->
             <div class="lg:col-span-2 bg-gray-800/50 backdrop-blur-none md:backdrop-blur-md rounded-3xl p-8 border border-indigo-500/20 shadow-2xl">
     <h3 class="text-2xl font-bold mb-6 flex items-center"><i class="fas fa-chart-line text-indigo-400 mr-3"></i>Actual vs Predicted Demand (12 Months)</h3>
-    <div class="h-[400px] bg-gray-900/30 rounded-2xl p-4">
+    <div class="h-[400px] bg-gray-800/40 rounded-2xl p-4">
         <canvas id="lineChart"></canvas>
     </div>
 </div>
@@ -446,3 +457,5 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 </body>
 </html>
+
+
