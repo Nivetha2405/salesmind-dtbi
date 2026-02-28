@@ -16,7 +16,18 @@
         }
     </script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen lg:ml-64 p-8">
+<body class="bg-gradient-to-br from-gray-800 via-indigo-900 to-gray-900 text-white min-h-screen lg:ml-64 p-8">
+    <!-- Top Navigation -->
+<nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
+    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
+
+    <div class="space-x-6 text-white">
+        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
+        <a href="{{ url_for('forecast') }}" class="text-indigo-400 font-semibold">Forecast</a>
+        <a href="{{ url_for('reports') }}" class="hover:text-indigo-400">Reports</a>
+        <a href="{{ url_for('twin') }}" class="hover:text-indigo-400">Twin</a>
+    </div>
+</nav>
     <!-- Mobile Header - SAME -->
     <header class="lg:hidden bg-gray-900/95 backdrop-blur-md border-b border-indigo-500/30 p-4 mb-8 rounded-2xl">
         <div class="flex items-center justify-between">
@@ -138,7 +149,7 @@
         </div>
         <div class="overflow-x-auto">
             <table class="w-full text-sm">
-                <thead class="bg-gray-900/50">
+                <thead class="bg-gray-800/60">
                     <tr>
                         <th class="p-4 text-left font-bold text-gray-200">Month</th>
                         <th class="p-4 text-right font-bold text-gray-200">Actual</th>
@@ -241,16 +252,23 @@
     <script>
         // ✅ NEW: Export/Refresh Functions
         function exportCSV() {
-            const csv = `Month,Actual,Predicted,Difference,Accuracy\nJan 2026,12000,12200,+200,98.3%\nFeb 2026,11800,12000,+200,98.3%\nMar 2026,13200,13400,+200,98.5%\nApr 2026,13500,13700,+200,98.5%\nMay 2026,13800,14100,+300,97.9%\nJun 2026,14200,14500,+300,97.9%`;
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'demand_forecast_2026.csv';
-            a.click();
-            window.URL.revokeObjectURL(url);
-            console.log('📊 CSV exported successfully');
-        }
+    const table = document.querySelector("table");
+    let csv = [];
+
+    for (let row of table.rows) {
+        let cols = row.querySelectorAll("td, th");
+        let rowData = [];
+        cols.forEach(col => rowData.push(col.innerText.replace(/,/g, "")));
+        csv.push(rowData.join(","));
+    }
+
+    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "demand_forecast_2026.csv";
+    a.click();
+}
 
         function refreshForecast() {
             // Animate refresh
@@ -270,18 +288,27 @@
 
         // Animate counters - SAME
         document.querySelectorAll('[data-target]').forEach(el => {
-            const target = parseFloat(el.getAttribute('data-target'));
-            let current = 0;
-            const increment = target / 100;
-            const timer = setInterval(() => {
-                current += increment;
-                if (current >= target) {
-                    current = target;
-                    clearInterval(timer);
-                }
-                el.textContent = el.classList.contains('text-emerald-400') || el.classList.contains('text-purple-400') ? current.toFixed(1) + '%' : current.toFixed(2);
-            }, 30);
-        });
+    const target = parseFloat(el.getAttribute('data-target'));
+    let current = 0;
+    const increment = target / 100;
+
+    const isPercent = el.innerHTML.includes('%');
+
+    const timer = setInterval(() => {
+        current += increment;
+        if (current >= target) {
+            current = target;
+            clearInterval(timer);
+        }
+
+        if (isPercent) {
+            el.textContent = current.toFixed(1) + '%';
+        } else {
+            el.textContent = current.toFixed(2);
+        }
+
+    }, 25);
+});
 
         const ctx = document.getElementById('forecastChart').getContext('2d');
 
@@ -345,3 +372,5 @@ new Chart(ctx, {
     </script>
 </body>
 </html>
+
+
