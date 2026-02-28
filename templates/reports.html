@@ -9,7 +9,21 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body class="bg-gradient-to-br from-gray-900 via-indigo-950 to-black text-white min-h-screen lg:ml-64 p-8">
+<body class="bg-gradient-to-br from-gray-800 via-indigo-900 to-gray-900  text-white min-h-screen lg:ml-64 p-8">
+    <!-- Top Navigation -->
+<nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
+    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
+
+    <nav class="bg-gray-900 p-4 flex justify-between items-center shadow-lg">
+    <h2 class="text-xl font-bold text-indigo-400">SalesMind AI</h2>
+
+    <div class="space-x-6 text-white">
+        <a href="{{ url_for('dashboard') }}" class="hover:text-indigo-400">Dashboard</a>
+        <a href="{{ url_for('forecast') }}" class="hover:text-indigo-400">Forecast</a>
+        <a href="{{ url_for('reports') }}" class="text-indigo-400 font-semibold">Reports</a>
+        <a href="{{ url_for('twin') }}" class="hover:text-indigo-400">Twin</a>
+    </div>
+</nav>
     <!-- Header - ✅ FIXED BUTTONS ONLY -->
     <header class="flex flex-col lg:flex-row lg:items-center justify-between mb-12">
         <div>
@@ -63,7 +77,7 @@
         </div>
         <div class="overflow-x-auto">
             <table class="w-full" id="reportsTable">
-                <thead class="bg-gray-900/50">
+                <thead class="bg-gray-800/60">
                     <tr>
                         <th class="p-6 text-left font-bold text-gray-200 text-sm uppercase tracking-wider">Date</th>
                         <th class="p-6 text-left font-bold text-gray-200 text-sm uppercase tracking-wider">Product ID</th>
@@ -211,15 +225,23 @@
 }
            
         function exportCSV() {
-            const csv = `Date,Product ID,Region,Actual,Predicted,Variance,Revenue,Status\n2026-02-25,PROD-A001,South,12450,13200,+750,₹845000,Optimal`;
-            const blob = new Blob([csv], { type: 'text/csv' });
-            const url = window.URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'demand_prediction_report.csv';
-            a.click();
-            alert('📋 CSV Report Downloaded!');
-        }
+    const table = document.getElementById("reportsTable");
+    let csv = [];
+
+    for (let row of table.rows) {
+        let cols = row.querySelectorAll("td, th");
+        let rowData = [];
+        cols.forEach(col => rowData.push(col.innerText.replace(/,/g, "")));
+        csv.push(rowData.join(","));
+    }
+
+    const blob = new Blob([csv.join("\n")], { type: "text/csv" });
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = "demand_prediction_report.csv";
+    a.click();
+}
 
         // Table interactions - BONUS functionality
         
