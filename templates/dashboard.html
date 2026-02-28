@@ -221,16 +221,15 @@
         </div>
     </div>
 
-
     <div class="text-center mt-16 mb-10">
         <a href="{{url_for('forecast')}}"
               class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-white">
-            Go to forecast--->
+            Go to Forecast →
          </a>
     </div>
-
     <script>
-
+        document.addEventListener("DOMContentLoaded", function() {
+        
 
     function updateTime() {
     const now = new Date();
@@ -246,10 +245,10 @@ updateTime();
 setInterval(updateTime, 60000);
   let counterIntervals = {};
 
-  document.getElementById("refreshBtn").classList.add("animate-spin");
-setTimeout(() => {
-    document.getElementById("refreshBtn").classList.remove("animate-spin");
-}, 500);
+  document.getElementById("refreshBtn")?.addEventListener("click", function() {
+    this.classList.add("animate-spin");
+    setTimeout(() => this.classList.remove("animate-spin"), 500);
+});
 
 function animateCounter(id, target) {
     const el = document.getElementById(id);
@@ -452,9 +451,12 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 });
+        });
 </script>
 </body>
 </html>
+
+
 
 
 
