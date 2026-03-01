@@ -66,6 +66,9 @@ python app.py
 
 ![Architecture](images/architecture.png)
 
+## 🌐 Live Demo
+Check out the project here: [Salesmind Digital Twin BI](https://salesmind-dtbi.onrender.com)
+
 
 
 
