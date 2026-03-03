@@ -19,7 +19,7 @@
 <body class="bg-gradient-to-br from-gray-800 via-indigo-950 to-gray-900 text-white min-h-screen">
     
     <!-- Sidebar -->
-    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-none md:backdrop-blur-mdborder-r border-indigo-500/30 transform -translate-x-full lg:translate-x-0 transition-transform duration-300 ease-in-out" id="sidebar">
+    <aside class="fixed inset-y-0 left-0 z-50 w-64 bg-gray-900/95 backdrop-blur-none md:backdrop-blur-md border-r border-indigo-500/30 transform -translate-x-full lg:translate-x-0 lg:static transition-transform duration-300 ease-in-out" id="sidebar">
         <div class="flex items-center justify-center h-20 border-b border-indigo-500/30">
             <i class="fas fa-robot text-3xl text-indigo-400 mr-3"></i>
             <span class="text-xl font-bold bg-gradient-to-r from-indigo-400 to-purple-500 bg-clip-text text-transparent">Digital Twin BI</span>
@@ -44,12 +44,15 @@
     </aside>
 
     <!-- Overlay -->
-    <div class="fixed inset-0 bg-black/20 backdrop-blur-none sm:backdrop-blur-sm z-40 lg:hidden" id="overlay"></div>
+    <div class="fixed inset-0 bg-black/20 backdrop-blur-none sm:backdrop-blur-sm z-40 hidden lg:hidden" id="overlay"></div>
 
     <!-- Main Content -->
     <div class="lg:ml-64 p-8">
         <!-- Header -->
         <header class="flex flex-col lg:flex-row lg:items-center justify-between mb-12">
+            <button id="menuBtn" class="lg:hidden text-2xl text-white mr-4">
+    <i class="fas fa-bars"></i>
+</button>
             <div>
                 <h1 class="text-4xl lg:text-5xl font-black bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent mb-2">
                     BI Control Panel
@@ -245,9 +248,27 @@ updateTime();
 setInterval(updateTime, 60000);
   let counterIntervals = {};
 
+  const sidebar = document.getElementById("sidebar");
+const overlay = document.getElementById("overlay");
+const menuBtn = document.getElementById("menuBtn");
+
+menuBtn?.addEventListener("click", () => {
+    sidebar.classList.toggle("-translate-x-full");
+    overlay.classList.toggle("hidden");
+});
+
+overlay?.addEventListener("click", () => {
+    sidebar.classList.add("-translate-x-full");
+    overlay.classList.add("hidden");
+});
+
   document.getElementById("refreshBtn")?.addEventListener("click", function() {
     this.classList.add("animate-spin");
-    setTimeout(() => this.classList.remove("animate-spin"), 500);
+
+    setTimeout(() => {
+        this.classList.remove("animate-spin");
+        location.reload();
+    }, 500);
 });
 
 function animateCounter(id, target) {
@@ -440,24 +461,10 @@ if (scatterCtx) new Chart(scatterCtx, {
         }
     }
 });
-
-// Refresh Button Function
-document.addEventListener("DOMContentLoaded", function () {
-    const refreshBtn = document.getElementById("refreshBtn");
-
-    if (refreshBtn) {
-        refreshBtn.addEventListener("click", function () {
-            location.reload();
         });
-    }
-});
-        });
+
+
+        
 </script>
 </body>
 </html>
-
-
-
-
-
-
