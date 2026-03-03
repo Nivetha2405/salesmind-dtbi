@@ -44,8 +44,7 @@
     </aside>
 
     <!-- Overlay -->
-    <div class="fixed inset-0 bg-black/20 backdrop-blur-none sm:backdrop-blur-sm z-40 hidden lg:hidden" id="overlay"></div>
-
+    <div id="overlay" class="fixed inset-0 bg-black/0 backdrop-blur-none z-30 hidden lg:hidden pointer-events-none"></div>
     <!-- Main Content -->
     <div class="lg:ml-64 p-8">
         <!-- Header -->
@@ -254,12 +253,21 @@ const menuBtn = document.getElementById("menuBtn");
 
 menuBtn?.addEventListener("click", () => {
     sidebar.classList.toggle("-translate-x-full");
-    overlay.classList.toggle("hidden");
+    if (!overlay.classList.contains("pointer-events-none")) {
+        // show overlay
+        overlay.classList.remove("hidden");
+        overlay.classList.add("pointer-events-auto", "bg-black/20");
+    } else {
+        // hide overlay
+        overlay.classList.add("hidden");
+        overlay.classList.remove("pointer-events-auto", "bg-black/20");
+    }
 });
 
 overlay?.addEventListener("click", () => {
     sidebar.classList.add("-translate-x-full");
     overlay.classList.add("hidden");
+    overlay.classList.remove("pointer-events-auto", "bg-black/20");
 });
 
   document.getElementById("refreshBtn")?.addEventListener("click", function() {
