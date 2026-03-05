@@ -60,17 +60,17 @@ Simulation Impact Testing
 ![Dashboard Entry](images/salesmind-dashboard-entry.png.jpeg)
 
 ## Login Page
-![Login Page](salesmind-login-page.png)
+![Login Page](images/salesmind-login-page.png)
 
 ## Signup Page
-![Signup Page](salesmind-signup-page.png)
+![Signup Page](images/salesmind-signup-page.png)
 
 ![Control Panel](images/salesmind-control-panel.png.jpeg)
 
 ![Dashboard Overview](images/salesmind-dashboard-overview.png.jpeg)
 
 ## Actual vs Demand
-![Actual vs Demand](salesminnd-actual-vs-demand.jpeg)
+![Actual vs Demand](images/salesminnd-actual-vs-demand.jpeg)
 
 
 ![AI Insights](images/salesmind-ai-insights.png.jpeg)
