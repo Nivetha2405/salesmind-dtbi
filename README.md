@@ -69,11 +69,12 @@ Simulation Impact Testing
 ![Signup Page](images/salesmind-signup-page.jpeg)
 
 ![Control Panel](images/salesmind-control-panel.png.jpeg)
-
-![Dashboard Overview](images/salesmind-dashboard-overview.png.jpeg)
 ## 📊 Dashboard – Actual vs Predicted Demand
 
 ![Actual vs Demand](images/salesminnd-actual-vs-demand.jpeg)
+
+![Dashboard Overview](images/salesmind-dashboard-overview.png.jpeg)
+
 
 
 
