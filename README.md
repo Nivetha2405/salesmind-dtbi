@@ -59,7 +59,7 @@ Simulation Impact Testing
 # SalesMind AI - Dashboard
 ![Dashboard Entry](images/salesmind-dashboard-entry.png.jpeg)
 
-![Login Screen](images/salesmind-login.png.jpeg)
+
 
 ![Control Panel](images/salesmind-control-panel.png.jpeg)
 
