@@ -59,18 +59,23 @@ Simulation Impact Testing
 # SalesMind AI - Dashboard
 ![Dashboard Entry](images/salesmind-dashboard-entry.png.jpeg)
 
-## Login Page
-![Login Page](images/salesmind-login-page.png)
+## 🔐 Login Page
 
-## Signup Page
-![Signup Page](images/salesmind-signup-page.png)
+![Login Page](images/salesmind-login-page.jpeg)
+
+
+## 📝 Signup Page
+
+![Signup Page](images/salesmind-signup-page.jpeg)
 
 ![Control Panel](images/salesmind-control-panel.png.jpeg)
 
 ![Dashboard Overview](images/salesmind-dashboard-overview.png.jpeg)
+## 📊 Dashboard – Actual vs Predicted Demand
 
-## Actual vs Demand
 ![Actual vs Demand](images/salesminnd-actual-vs-demand.jpeg)
+
+
 
 
 ![AI Insights](images/salesmind-ai-insights.png.jpeg)
