@@ -43,6 +43,10 @@ def login():
 def logout():
     return render_template('login.html')
 
+@app.route("/signup")
+def signup():
+    return render_template("signup.html")
+
 
 # CSV REPORT GENERATOR - FIXED ✅
 @app.route('/api/reports/<report_type>')
@@ -138,6 +142,7 @@ def simulation():
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
 
 
 
