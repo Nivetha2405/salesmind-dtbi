@@ -6,53 +6,54 @@ AI-Based Digital Twin Business Intelligence & Demand Prediction System
 ---
 
 ## 🔥 Features
--📊 AI-powered Demand Forecasting
+📊 AI-powered Demand Forecasting
 
--🧠 Digital Twin Simulation Engine
+🧠 Digital Twin Simulation Engine
 
--🔮 What-If Scenario Analysis
+🔮 What-If Scenario Analysis
 
--📦 Inventory Intelligence System
+📦 Inventory Intelligence System
 
--🌐 REST API Architecture
+🌐 REST API Architecture
 
--🧩 Modular Machine Learning Integration
+🧩 Modular Machine Learning Integration
 
 ---
 
 ## 🧠 Models Used
-- Demand Prediction Model
+ Demand Prediction Model
 
-- Business Intelligence Model
+ Business Intelligence Model
 
-- Digital Twin Simulation Engine
+ Digital Twin Simulation Engine
 
 ---
 
 🛠 Tech Stack
 
 Frontend:
-    -HTML5
+
+    HTML5
     
-    -Tailwind CSS
+    Tailwind CSS
     
-    -Chart.js
+    Chart.js
     
-    -JavaScript
+    JavaScript
 
 Backend:
 
-   -Python
+      Python
    
-   -Flask
+      Flask
 
 Machine Learning:
 
-   -Demand Prediction Model
+      Demand Prediction Model
 
 Deployment:
 
-    -Render
+      Render
 ---
 
 ## ▶ How to Run
@@ -68,39 +69,39 @@ Then open:
 
 ##📊 System Modules:
 
--Dashboard Entry
+      Dashboard Entry
 
--Login Screen
+      Login Screen
 
--Control Panel
+      Control Panel
 
--Dashboard Overview
+      Dashboard Overview
 
--AI Insights
+      AI Insights
 
--6-Month Forecast
+      6-Month Forecast
 
--Alerts
+      Alerts
 
--Sales Prediction Details
+      Sales Prediction Details
 
--Reports & Records
+      Reports & Records
 
--Simulation Impact Testing
+      Simulation Impact Testing
 
 ---
 
 📈 Use Cases:
 
--Retail demand prediction
+      Retail demand prediction
 
--Inventory optimization
+      Inventory optimization
 
--Business strategy simulation
+      Business strategy simulation
 
--Supply chain planning
+      Supply chain planning
 
--Market trend analysis
+      Market trend analysis
 
 ---
 
@@ -108,21 +109,21 @@ Then open:
 
 The system provides intelligent insights such as:
 
--Current Demand
+       Current Demand
 
--Predicted Demand
+       Predicted Demand
 
--Demand Growth %
+       Demand Growth %
 
--Inventory Level
+       Inventory Level
 
--AI Prediction Accuracy
+       AI Prediction Accuracy
 
--Revenue Trends
+       Revenue Trends
 
--Market Share Analysis
+       Market Share Analysis
 
--Price vs Demand Correlation 
+       Price vs Demand Correlation 
 
 ---
 
