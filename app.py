@@ -1,4 +1,5 @@
 import io
+import pandas as pd
 import csv
 import os
 from flask import Flask, jsonify, send_file, request, render_template
@@ -15,29 +16,22 @@ def health():
 
 # HTML TEMPLATES - ALL 6 PAGES ✅
 @app.route('/')
-def index():
-    return render_template('index.html')
-
-@app.route('/dashboard')
-def dashboard():
-    return render_template('dashboard.html')
-
-@app.route('/forecast')
-def forecast():
-    return render_template('forecast.html')
-
-@app.route('/twin')
-def twin():
-    return render_template('twin.html')
-
-@app.route('/reports')
-def reports():
-    return render_template('reports.html')
+def index(): return render_template('index.html')
 
 @app.route('/login')
-def login():
-    return render_template('login.html')
+def login(): return render_template('login.html')
 
+@app.route('/dashboard')
+def dashboard(): return render_template('dashboard.html')
+
+@app.route('/forecast')
+def forecast(): return render_template('forecast.html')
+
+@app.route('/reports')
+def reports(): return render_template('reports.html')
+
+@app.route('/twin')
+def twin(): return render_template('twin.html')
 
 @app.route('/logout')
 def logout():
@@ -139,13 +133,31 @@ def simulation():
         "risk_level": "LOW"
     })
 
+# DATASET UPLOAD API ✅
+@app.route('/api/upload-dataset', methods=['POST'])
+def upload_dataset():
+
+    if 'dataset' not in request.files:
+        return jsonify({"error": "No dataset file provided"}), 400
+
+    file = request.files['dataset']
+
+    try:
+        df = pd.read_csv(file)
+
+        return jsonify({
+            "status": "success",
+            "rows": len(df),
+            "columns": list(df.columns),
+            "message": "Dataset uploaded successfully"
+        })
+
+    except Exception as e:
+        return jsonify({
+            "status": "error",
+            "message": str(e)
+        }), 500
+
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
-
-
-
-
-
-
-
