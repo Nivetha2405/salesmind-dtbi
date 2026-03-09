@@ -74,26 +74,7 @@
     </select>
 </div>
 
-<!-- Upload Dataset -->
-<div class="mb-10">
-    <form id="datasetForm" enctype="multipart/form-data">
-        <label class="block text-lg font-semibold text-indigo-400 mb-3">
-            Upload Dataset (CSV)
-        </label>
 
-        <div class="flex flex-wrap items-center gap-4">
-            <input type="file" id="datasetFile" name="dataset" accept=".csv"
-                class="bg-gray-800 border border-indigo-500/30 px-4 py-2 rounded-xl text-white">
-
-            <button type="button" id="uploadBtn"
-                class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-xl text-white">
-                Upload
-            </button>
-
-            <span id="uploadStatus" class="text-sm text-gray-400"></span>
-        </div>
-    </form>
-</div>
 
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
@@ -497,4 +478,5 @@ if (scatterCtx) new Chart(scatterCtx, {
 </script>
 </body>
 </html>
+
 
