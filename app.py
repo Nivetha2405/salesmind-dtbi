@@ -133,31 +133,9 @@ def simulation():
         "risk_level": "LOW"
     })
 
-# DATASET UPLOAD API ✅
-@app.route('/api/upload-dataset', methods=['POST'])
-def upload_dataset():
 
-    if 'dataset' not in request.files:
-        return jsonify({"error": "No dataset file provided"}), 400
-
-    file = request.files['dataset']
-
-    try:
-        df = pd.read_csv(file)
-
-        return jsonify({
-            "status": "success",
-            "rows": len(df),
-            "columns": list(df.columns),
-            "message": "Dataset uploaded successfully"
-        })
-
-    except Exception as e:
-        return jsonify({
-            "status": "error",
-            "message": str(e)
-        }), 500
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))
     app.run(host="0.0.0.0", port=port, debug=True)
+
