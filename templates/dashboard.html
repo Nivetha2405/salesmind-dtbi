@@ -491,38 +491,10 @@ if (scatterCtx) new Chart(scatterCtx, {
     }
 });
         });
-  // Dataset Upload
-document.getElementById("uploadBtn")?.addEventListener("click", function(){
-
-    const fileInput = document.getElementById("datasetFile")
-    const status = document.getElementById("uploadStatus")
-
-    if(!fileInput.files.length){
-        status.textContent = "Please select a CSV file"
-        return
-    }
-
-    const formData = new FormData()
-    formData.append("dataset", fileInput.files[0])
-
-    status.textContent = "Uploading..."
-
-    fetch("/upload_dataset", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-        status.textContent = "Dataset uploaded successfully"
-        console.log("Dataset Data:", data)
-    })
-    .catch(err=>{
-        status.textContent = "Upload failed"
-    })
-})      
 
 
         
 </script>
 </body>
 </html>
+
