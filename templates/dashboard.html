@@ -74,8 +74,6 @@
     </select>
 </div>
 
-
-
         <!-- KPI Cards -->
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6 gap-6 mb-12">
             <div class="group bg-gradient-to-br from-gray-700 to-gray-800/50 backdrop-blur-none md:backdrop-blur-md p-8 rounded-3xl border border-indigo-500/20 hover:border-indigo-400/40 shadow-2xl hover:shadow-3xl transition-all duration-500 hover:-translate-y-2">
@@ -202,22 +200,37 @@
                     <div class="flex items-start p-6 bg-gradient-to-r from-green-500/10 to-emerald-500/10 border-l-4 border-green-400 rounded-2xl">
                         <i class="fas fa-chart-line text-2xl text-green-400 mt-1 mr-4 flex-shrink-0"></i>
                         <div>
-                            <h4 class="font-bold text-xl mb-2">📈 Demand Surge Detected</h4>
-                            <p class="text-gray-300">Q4 demand increasing 18.2% YoY across all product categories</p>
+                            <h4 id="insightTitle1" class="font-bold text-xl mb-2">
+                                           📈 Demand Surge Detected
+                            </h4>
+
+                            <p id="insightText1" class="text-gray-300">
+                                            Q4 demand increasing 18.2% YoY across all product categories
+                            </p>
                         </div>
                     </div>
                     <div class="flex items-start p-6 bg-gradient-to-r from-orange-500/10 to-red-500/10 border-l-4 border-orange-400 rounded-2xl">
                         <i class="fas fa-exclamation-triangle text-2xl text-orange-400 mt-1 mr-4 flex-shrink-0"></i>
                         <div>
-                            <h4 class="font-bold text-xl mb-2">⚠️ Stock Alert</h4>
-                            <p class="text-gray-300">Product A shortage predicted for March - reorder 2,450 units</p>
+                            <h4 id="insightTitle2" class="font-bold text-xl mb-2">
+⚠️ Stock Alert
+</h4>
+
+<p id="insightText2" class="text-gray-300">
+Product A shortage predicted for March - reorder 2,450 units
+</p>
                         </div>
                     </div>
                     <div class="flex items-start p-6 bg-gradient-to-r from-purple-500/10 to-indigo-500/10 border-l-4 border-purple-400 rounded-2xl">
                         <i class="fas fa-fire text-2xl text-purple-400 mt-1 mr-4 flex-shrink-0"></i>
                         <div>
-                            <h4 class="font-bold text-xl mb-2">🔥 Top Performer</h4>
-                            <p class="text-gray-300">Product C showing 12% surge - increase marketing allocation</p>
+                            <h4 id="insightTitle3" class="font-bold text-xl mb-2">
+🔥 Top Performer
+</h4>
+
+<p id="insightText3" class="text-gray-300">
+Product C showing 12% surge - increase marketing allocation
+</p>
                         </div>
                     </div>
                 </div>
@@ -234,6 +247,7 @@
     <script>
         document.addEventListener("DOMContentLoaded", function() {
         
+        let lineChart, barChart, areaChart, donutChart, scatterChart;
 
     function updateTime() {
     const now = new Date();
@@ -321,34 +335,152 @@ function animateCounter(id, target) {
     animateCounter('aiAccuracy', 94.8);
 
     document.getElementById("scenarioSelect")?.addEventListener("change", function() {
-    const scenario = this.value;
 
-    if (scenario === "festival") {
-        animateCounter('currentDemand', 15000);
-        animateCounter('predictedDemand', 16500);
-        animateCounter('demandGrowth', 12.5);
-    }
-    else if (scenario === "disruption") {
-        animateCounter('inventoryLevel', 6500);
-        animateCounter('demandGrowth', -4.2);
-    }
-    else if (scenario === "priceDrop") {
-        animateCounter('demandGrowth', 10.5);
-        animateCounter('currentDemand', 14500);
-    }
-    else {
-        animateCounter('totalSales', 845000);
-        animateCounter('currentDemand', 12450);
-        animateCounter('predictedDemand', 13200);
-        animateCounter('demandGrowth', 6.02);
-        animateCounter('inventoryLevel', 9800);
-        animateCounter('aiAccuracy', 94.8);
-    }
+const scenario = this.value;
+
+if (scenario === "festival") {
+
+animateCounter('currentDemand', 15000);
+animateCounter('predictedDemand', 16500);
+animateCounter('demandGrowth', 12.5);
+
+// Line chart update
+if(lineChart) {
+lineChart.data.datasets[0].data = [13000,12800,13500,14000,14200,15000,15500,15800,16000,17000,18000,19000];
+lineChart.data.datasets[1].data = [13200,13000,13800,14200,14500,15200,15800,16000,16500,17500,18500,20000];
+lineChart.update();
+}
+
+// Bar chart update
+if(barChart) {
+barChart.data.datasets[0].data = [950000,820000,1200000,760000];
+barChart.update();
+}
+
+// Revenue
+if(areaChart){
+areaChart.data.datasets[0].data = [700000,750000,820000,880000,900000,950000,1000000,1050000,1100000,1200000,1300000,1450000];
+areaChart.update();
+}
+
+// Market share
+if(donutChart){
+donutChart.data.datasets[0].data = [30,20,35,15];
+donutChart.update();
+}
+
+
+// Scatter
+if(scatterChart){
+scatterChart.data.datasets[0].data = [
+{x:100,y:18000},
+{x:120,y:17000},
+{x:140,y:16000},
+{x:160,y:15000},
+{x:180,y:13000}
+];
+scatterChart.update();
+
+document.getElementById("insightTitle1").innerText="🎉 Festival Demand Spike";
+document.getElementById("insightText1").innerText=
+"Festival season increasing demand by 25% across major products";
+
+document.getElementById("insightTitle2").innerText="📦 Inventory Warning";
+document.getElementById("insightText2").innerText=
+"Stock levels dropping fast due to festive purchases";
+
+document.getElementById("insightTitle3").innerText="🔥 Best Seller";
+document.getElementById("insightText3").innerText=
+"Product C dominating festival sales";
+
+}
+}
+
+else if (scenario === "disruption") {
+
+animateCounter('inventoryLevel', 6500);
+animateCounter('demandGrowth', -4.2);
+
+// demand drop
+lineChart.data.datasets[0].data = [12000,11500,11000,10500,10000,9800,9600,9400,9200,9000,8800,8500];
+lineChart.data.datasets[1].data = [11800,11200,10800,10300,9800,9500,9300,9100,8900,8700,8500,8200];
+lineChart.update();
+
+document.getElementById("insightTitle1").innerText="⚠️ Supply Chain Disruption";
+document.getElementById("insightText1").innerText=
+"Supplier delays causing 15% drop in product availability";
+
+document.getElementById("insightTitle2").innerText="📦 Low Inventory Risk";
+document.getElementById("insightText2").innerText=
+"Warehouse stock predicted to fall below safety levels";
+
+document.getElementById("insightTitle3").innerText="📉 Demand Slowdown";
+document.getElementById("insightText3").innerText=
+"Demand dropping due to supply constraints";
+
+}
+
+else if (scenario === "priceDrop") {
+
+animateCounter('demandGrowth', 10.5);
+animateCounter('currentDemand', 14500);
+
+// scatter change
+scatterChart.data.datasets[0].data = [
+{x:90,y:17000},
+{x:100,y:16500},
+{x:110,y:16000},
+{x:120,y:15500},
+{x:130,y:15000}
+];
+scatterChart.update();
+
+document.getElementById("insightTitle1").innerText="💰 Price Drop Impact";
+document.getElementById("insightText1").innerText=
+"Price reduction increasing demand across all categories";
+
+document.getElementById("insightTitle2").innerText="📊 Sales Boost";
+document.getElementById("insightText2").innerText=
+"Lower pricing strategy increasing product conversion rate";
+
+document.getElementById("insightTitle3").innerText="🔥 Top Seller";
+document.getElementById("insightText3").innerText=
+"Product B gaining popularity after price reduction";
+
+
+}
+
+
+else {
+
+// reset default
+animateCounter('totalSales', 845000);
+animateCounter('currentDemand', 12450);
+animateCounter('predictedDemand', 13200);
+animateCounter('demandGrowth', 6.02);
+animateCounter('inventoryLevel', 9800);
+animateCounter('aiAccuracy', 94.8);
+
+// reset AI insights
+document.getElementById("insightTitle1").innerText="📈 Demand Surge Detected";
+document.getElementById("insightText1").innerText=
+"Q4 demand increasing 18.2% YoY across all product categories";
+
+document.getElementById("insightTitle2").innerText="⚠️ Stock Alert";
+document.getElementById("insightText2").innerText=
+"Product A shortage predicted for March - reorder 2,450 units";
+
+document.getElementById("insightTitle3").innerText="🔥 Top Performer";
+document.getElementById("insightText3").innerText=
+"Product C showing 12% surge - increase marketing allocation";
+
+}
+
 });
 
     // ✅ FIXED Line Chart ONLY
     const lineCtx = document.getElementById('lineChart')?.getContext('2d');
-    if (lineCtx) new Chart(lineCtx, {
+    if (lineCtx) lineChart = new Chart(lineCtx, {
         type: 'line',
         data: {
             labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
@@ -377,7 +509,7 @@ function animateCounter(id, target) {
 
     // ✅ FIXED Bar Chart ONLY
     const barCtx = document.getElementById('barChart')?.getContext('2d');
-    if (barCtx) new Chart(barCtx, {
+    if (barCtx) barChart = new Chart(barCtx, {
         type: 'bar',
         data: {
             labels: ['Product A', 'Product B', 'Product C', 'Product D'],
@@ -406,7 +538,7 @@ function animateCounter(id, target) {
     }
 
    const areaCtx = document.getElementById('areaChart')?.getContext('2d');
-if (areaCtx) new Chart(areaCtx, {
+if (areaCtx) areaChart = new Chart(areaCtx, {
     type: 'line',
     data: {
         labels: ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],
@@ -426,7 +558,7 @@ if (areaCtx) new Chart(areaCtx, {
 });
 
 const donutCtx = document.getElementById('donutChart')?.getContext('2d');
-if (donutCtx) new Chart(donutCtx, {
+if (donutCtx) donutChart  = new Chart(donutCtx, {
     type: 'doughnut',
     data: {
         labels: ['Product A','Product B','Product C','Product D'],
@@ -443,7 +575,7 @@ if (donutCtx) new Chart(donutCtx, {
 });
 
 const scatterCtx = document.getElementById('scatterChart')?.getContext('2d');
-if (scatterCtx) new Chart(scatterCtx, {
+if (scatterCtx) scatterChart =  new Chart(scatterCtx, {
     type: 'scatter',
     data: {
         datasets: [{
@@ -478,5 +610,3 @@ if (scatterCtx) new Chart(scatterCtx, {
 </script>
 </body>
 </html>
-
-
